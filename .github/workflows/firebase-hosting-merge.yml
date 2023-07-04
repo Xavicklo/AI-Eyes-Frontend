@@ -14,7 +14,7 @@ jobs:
       - run: npm i && npm run build
       - run: npm i -g firebase-tools
       - run: firebase deploy --token='${{ secrets.FIREBASE_DEPLOY_KEY }}'
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - uses: firebase/github-actions/hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TF_JS_WEBCAM }}'
