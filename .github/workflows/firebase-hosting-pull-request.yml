@@ -16,7 +16,6 @@ jobs:
       - run: firebase deploy --token='${{ secrets.FIREBASE_DEPLOY_KEY }}'
       - uses: firebase/github-actions/hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TF_JS_WEBCAM }}'
           channelId: live
           projectId: tf-js-webcam
