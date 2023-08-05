@@ -49,7 +49,7 @@ export const detectImage = async (imgSource, model, classThreshold, canvasRef) =
   const [input, xRatio, yRatio] = preprocess(imgSource, modelWidth, modelHeight);
 
   await model.net.executeAsync(input).then((res) => {
-    const [boxes, scores, classes] = res.slice(0, 3);
+    const [boxes, scores, classes] = res.slice(0, 3); // 這邊要確定資料的順序
     const boxes_data = boxes.dataSync();
     const scores_data = scores.dataSync();
     const classes_data = classes.dataSync();

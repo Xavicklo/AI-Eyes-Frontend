@@ -34,6 +34,7 @@ export const renderBoxes = (
     // filter based on class threshold
     if (scores_data[i] > classThreshold) {
       const klass = labels[classes_data[i]];
+      console.log(klass, "klass")
       const color = colors.get(classes_data[i]);
       const score = (scores_data[i] * 100).toFixed(1);
 
@@ -106,8 +107,8 @@ class Colors {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result
       ? `rgba(${[parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)].join(
-          ", "
-        )}, ${alpha})`
+        ", "
+      )}, ${alpha})`
       : null;
   };
 }
