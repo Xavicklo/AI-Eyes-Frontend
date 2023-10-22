@@ -21,7 +21,7 @@ const App = () => {
 
   // model configs
   const modelName = "yolov5n";
-  const classThreshold = 0.2;
+  const classThreshold = 0.1;
 
   useEffect(() => {
     tf.ready().then(async () => {
@@ -69,12 +69,14 @@ const App = () => {
         />
         <video
           autoPlay
+          playsInline
           muted
           ref={cameraRef}
           onPlay={() => detectVideo(cameraRef.current, model, classThreshold, canvasRef.current)}
         />
         <video
           autoPlay
+          playsInline
           muted
           ref={videoRef}
           onPlay={() => detectVideo(videoRef.current, model, classThreshold, canvasRef.current)}

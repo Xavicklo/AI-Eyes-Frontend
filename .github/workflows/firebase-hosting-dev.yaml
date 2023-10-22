@@ -1,0 +1,21 @@
+name: Deploy to Preview Environment
+
+on:
+  push:
+    branches:
+    - dev
+
+jobs:
+  build_and_preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm i && npm run build
+      - name: Deploy to Firebase Hosting Preview Channel
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TF_JS_WEBCAM }}'
+          projectId: tf-js-webcam
+          channelId: dev-preview # This sets the preview channel to a consistent name for the dev branch
+          expires: 7d # Optional: Set the preview channel's expiration. Default is 7d.
