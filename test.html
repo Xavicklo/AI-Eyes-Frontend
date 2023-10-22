@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="webcam-box-inner">
+    <video autoplay playsinline muted id="webcam" width="224" height="224"></video>
+  </div>
+
+  <script src="https://storage.googleapis.com/tfjs-examples/assets/webcam-transfer-learning/pacman-google.js"></script>
+  <script>
+    import tfd from '@tensorflow/tfjs-data';
+
+    async function init() {
+
+      try {
+        webcam = await tfd.webcam(document.getElementById('webcam'));
+      } catch (e) {
+        console.log(e);
+        document.getElementById('no-webcam').style.display = 'block';
+      }
+
+      // Warm up the model. This uploads weights to the GPU and compiles the WebGL
+      // programs so the first time we collect data from the webcam it will be
+      // quick.
+      const screenShot = await webcam.capture();
+      screenShot.dispose();
+    }
+
+    async function getImage() {
+      const img = await webcam.capture();
+      const processedImg =
+        tf.tidy(() => img.expandDims(0).toFloat().div(127).sub(1));
+      img.dispose();
+      return processedImg;
+    }
+
+  </script>
+</body>
+
+</html>
