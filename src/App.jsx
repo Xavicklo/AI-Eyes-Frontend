@@ -69,14 +69,14 @@ const App = () => {
         />
         <video
           autoPlay
-          playsinline
+          playsInline
           muted
           ref={cameraRef}
           onPlay={() => detectVideo(cameraRef.current, model, classThreshold, canvasRef.current)}
         />
         <video
           autoPlay
-          playsinline
+          playsInline
           muted
           ref={videoRef}
           onPlay={() => detectVideo(videoRef.current, model, classThreshold, canvasRef.current)}
