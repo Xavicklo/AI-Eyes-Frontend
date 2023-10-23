@@ -81,6 +81,7 @@ export const renderBoxes = (
     if (text.length <= 0){
       return;
     }
+    alert(text)
     text2speech(text);
   }
 };
