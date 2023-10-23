@@ -1,7 +1,7 @@
 
 const text2speech = async (text) => {
-  const url = "http://127.0.0.1:5001/tf-js-webcam/asia-east1/api" + '/text2speech';
-  // const url = "https://api-3svq6ybfiq-de.a.run.app" + '/text2speech';
+  // const url = "http://127.0.0.1:5001/tf-js-webcam/asia-east1/api" + '/text2speech';
+  const url = "https://api-3svq6ybfiq-de.a.run.app" + '/text2speech';
   const res = await fetch(url, {
     method: "POST",
     headers: {
