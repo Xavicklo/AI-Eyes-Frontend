@@ -75,7 +75,7 @@ export const renderBoxes = (
     }
   }
 
-  if (counter % 20 === 0 && counter < 100) {
+  if (counter % 15 === 0 && counter < 500) {
     const text = klasses.join(" ");
     console.log(text, "text")
     if (text.length <= 0){
