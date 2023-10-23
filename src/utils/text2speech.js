@@ -15,6 +15,7 @@ const text2speech = async (text) => {
   // Decode the base64 audio content
   const audioData = Uint8Array.from(atob(responseData.audioContent), c => c.charCodeAt(0));
   const blob = new Blob([audioData], { type: "audio/mpeg" });
+  alert("audioData received")
 
   // Play the audio
   const audio = new Audio(URL.createObjectURL(blob));
