@@ -1,5 +1,5 @@
 import labels from "./labels.json";
-import text2speech from "./text2speech";
+import { label2speech } from "./text2speech";
 
 /**
  * Render prediction boxes
@@ -37,7 +37,10 @@ export const renderBoxes = (
     // filter based on class threshold
     if (scores_data[i] > classThreshold) {
       const klass = labels[classes_data[i]];
-      klasses.push(klass);
+      klasses.push({
+        index: classes_data[i],
+        label: klass,
+      });
       const color = colors.get(classes_data[i]);
       const score = (scores_data[i] * 100).toFixed(1);
 
@@ -75,14 +78,15 @@ export const renderBoxes = (
     }
   }
 
-  if (counter % 20 === 0 && counter < 100) {
-    const text = klasses.join(" ");
-    console.log(text, "text")
-    if (text.length <= 0){
+  if (counter % 30 === 0) {
+    const audioIndexes = klasses.map((klass) => klass.index);
+    const audioLabels = klasses.map((klass) => klass.label);
+    console.log(audioIndexes, "audioIndexes")
+    console.log(audioLabels, "audioLabels")
+    if (audioIndexes.length <= 0) {
       return;
     }
-    alert(text)
-    text2speech(text);
+    label2speech(audioIndexes);
   }
 };
 

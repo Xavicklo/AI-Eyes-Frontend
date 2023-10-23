@@ -1,5 +1,7 @@
+import labels from "./labels.json";
+import audio from "./audio.json"
 
-const text2speech = async (text) => {
+export const text2speechAPI = async (text) => {
   // const url = "http://127.0.0.1:5001/tf-js-webcam/asia-east1/api" + '/text2speech';
   const url = "https://api-3svq6ybfiq-de.a.run.app" + '/text2speech';
   const res = await fetch(url, {
@@ -7,7 +9,7 @@ const text2speech = async (text) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({text: text}),
+    body: JSON.stringify({ text: text }),
   });
 
   const responseData = await res.json();
@@ -15,10 +17,27 @@ const text2speech = async (text) => {
   // Decode the base64 audio content
   const audioData = Uint8Array.from(atob(responseData.audioContent), c => c.charCodeAt(0));
   const blob = new Blob([audioData], { type: "audio/mpeg" });
-  // alert("audioData received")
 
   // Play the audio
-  const audio = new Audio(URL.createObjectURL(blob));
-  audio.play();
+  const sound = new Audio(URL.createObjectURL(blob));
+  sound.play();
 }
-export default text2speech;
+
+export const label2speech = async (audioIndexes) => {
+  console.log('%ctext2speech.js line:26 audio.length', 'color: #007acc;', audio.length);
+  console.log('%ctext2speech.js line:26 label.length', 'color: #007acc;', labels.length);
+  const playSound = (blob) => {
+    return new Promise((resolve) => {
+      const sound = new Audio(URL.createObjectURL(blob));
+      sound.onended = () => resolve();
+      sound.play();
+    });
+  };
+  for (const index of audioIndexes) {
+    const audioContent = audio[index];
+    const audioData = Uint8Array.from(atob(audioContent), c => c.charCodeAt(0));
+    const blob = new Blob([audioData], { type: "audio/mpeg" });
+    await playSound(blob);
+  }
+}
+
