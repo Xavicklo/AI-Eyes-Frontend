@@ -1,4 +1,5 @@
 import labels from "./labels.json";
+import text2speech from "./text2speech";
 
 /**
  * Render prediction boxes
@@ -10,6 +11,7 @@ import labels from "./labels.json";
  * @param {Array[Number]} ratios boxes ratio [xRatio, yRatio]
  */
 export const renderBoxes = (
+  counter,
   canvasRef,
   classThreshold,
   boxes_data,
@@ -30,11 +32,12 @@ export const renderBoxes = (
   ctx.font = font;
   ctx.textBaseline = "top";
 
+  const klasses = [];
   for (let i = 0; i < scores_data.length; ++i) {
     // filter based on class threshold
     if (scores_data[i] > classThreshold) {
       const klass = labels[classes_data[i]];
-      console.log(klass, "klass")
+      klasses.push(klass);
       const color = colors.get(classes_data[i]);
       const score = (scores_data[i] * 100).toFixed(1);
 
@@ -70,6 +73,15 @@ export const renderBoxes = (
       ctx.fillStyle = "#ffffff";
       ctx.fillText(klass + " - " + score + "%", x1 - 1, yText < 0 ? 0 : yText);
     }
+  }
+
+  if (counter % 20 === 0 && counter < 100) {
+    const text = klasses.join(" ");
+    console.log(text, "text")
+    if (text.length <= 0){
+      return;
+    }
+    text2speech(text);
   }
 };
 

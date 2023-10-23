@@ -73,7 +73,7 @@ export const detectVideo = (vidSource, model, classThreshold, canvasRef) => {
   /**
    * Function to detect every frame from video
    */
-  const detectFrame = async () => {
+  const detectFrame = async (counter) => {
     if (vidSource.videoWidth === 0 && vidSource.srcObject === null) {
       const ctx = canvasRef.getContext("2d");
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // clean canvas
@@ -88,16 +88,19 @@ export const detectVideo = (vidSource, model, classThreshold, canvasRef) => {
       const boxes_data = boxes.dataSync();
       const scores_data = scores.dataSync();
       const classes_data = classes.dataSync();
-      renderBoxes(canvasRef, classThreshold, boxes_data, scores_data, classes_data, [
+      renderBoxes(counter, canvasRef, classThreshold, boxes_data, scores_data, classes_data, [
         xRatio,
         yRatio,
       ]); // render boxes
       tf.dispose(res); // clear memory
     });
 
-    requestAnimationFrame(detectFrame); // get another frame
+    setTimeout(()=>{
+      detectFrame(counter + 1);
+    }, 100); // get another frame with a delay of 100ms
     tf.engine().endScope(); // end of scoping
   };
 
-  detectFrame(); // initialize to detect every frame
+  detectFrame(0); // initialize to detect every frame
 };
+
