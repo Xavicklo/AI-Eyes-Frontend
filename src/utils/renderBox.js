@@ -42,9 +42,9 @@ export const renderBoxes = (
         label: klass,
       });
 
-      if (klass === "person") {
+      // if (klass === "person") {
         vibration(200);
-      }
+      // }
       const color = colors.get(classes_data[i]);
       const score = (scores_data[i] * 100).toFixed(1);
 
