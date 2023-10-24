@@ -99,14 +99,19 @@ const speakDetectedLabel = (counter, klasses) => {
 }
 
 const vibration = (duration) => {
+  if (typeof navigator.vibrate === 'function') {
+    navigator.vibrate(200);
+  } else {
+    console.log('Vibration API not supported.');
+  }
 
-  // if ("vibrate" in navigator) {
+  if ("vibrate" in navigator) {
+    console.log("vibration supported");
     navigator.vibrate([200, 100, 300]);
     setTimeout(() => {
       navigator.vibrate(200);
     }, 1000);
-
-  // }
+  }
 
   // 停止震動
   navigator.vibrate(0);
