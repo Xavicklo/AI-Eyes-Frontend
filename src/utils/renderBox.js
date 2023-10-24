@@ -78,6 +78,10 @@ export const renderBoxes = (
     }
   }
 
+  speakDetectedLabel(counter, klasses);
+};
+
+const speakDetectedLabel = (counter, klasses) => {
   if (counter % 30 === 0) {
     const audioIndexes = klasses.map((klass) => klass.index);
     const audioLabels = klasses.map((klass) => klass.label);
@@ -88,7 +92,7 @@ export const renderBoxes = (
     }
     label2speech(audioIndexes);
   }
-};
+}
 
 class Colors {
   // ultralytics color palette https://ultralytics.com/
