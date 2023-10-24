@@ -41,3 +41,18 @@ export const label2speech = async (audioIndexes) => {
   }
 }
 
+export const vibration = (duration) => {
+
+  if ("vibrate" in navigator) {
+    navigator.vibrate([200, 100, 300]);
+
+
+    setTimeout(() => {
+      navigator.vibrate(200);
+    }, 1000);
+
+  }
+
+  // 停止震動
+  navigator.vibrate(0);
+}

@@ -1,5 +1,5 @@
 import labels from "./labels.json";
-import { label2speech } from "./text2speech";
+import { label2speech, vibration } from "./text2speech";
 
 /**
  * Render prediction boxes
@@ -41,6 +41,10 @@ export const renderBoxes = (
         index: classes_data[i],
         label: klass,
       });
+
+      if (klass === "person") {
+        vibration(200);
+      }
       const color = colors.get(classes_data[i]);
       const score = (scores_data[i] * 100).toFixed(1);
 
