@@ -101,8 +101,11 @@ const speakDetectedLabel = (counter, klasses) => {
 
 const vibration = (duration) => {
   const hapticsVibrate = async () => {
-    await Haptics.vibrate();
+    await Haptics.vibrate(duration);
   };
+  hapticsVibrate();
+  hapticsVibrate();
+  hapticsVibrate();
   hapticsVibrate();
 }
 
