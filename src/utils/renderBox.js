@@ -1,5 +1,5 @@
 import labels from "./labels.json";
-import { label2speech, vibration } from "./text2speech";
+import { label2speech } from "./text2speech";
 
 /**
  * Render prediction boxes
@@ -43,7 +43,7 @@ export const renderBoxes = (
       });
 
       // if (klass === "person") {
-        vibration(200);
+      vibration(200);
       // }
       const color = colors.get(classes_data[i]);
       const score = (scores_data[i] * 100).toFixed(1);
@@ -96,6 +96,20 @@ const speakDetectedLabel = (counter, klasses) => {
     }
     label2speech(audioIndexes);
   }
+}
+
+const vibration = (duration) => {
+
+  // if ("vibrate" in navigator) {
+    navigator.vibrate([200, 100, 300]);
+    setTimeout(() => {
+      navigator.vibrate(200);
+    }, 1000);
+
+  // }
+
+  // 停止震動
+  navigator.vibrate(0);
 }
 
 class Colors {
