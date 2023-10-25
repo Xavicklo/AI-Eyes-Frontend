@@ -20,7 +20,7 @@ const useModel = (modelName) => {
                     },
                 }
             );
-            console.oog("Completed loading model")
+            console.log("Completed loading model")
 
             console.log("Warming up model")
             const dummyInput = tf.ones(yolov5.inputs[0].shape);
