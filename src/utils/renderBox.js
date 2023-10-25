@@ -1,4 +1,4 @@
-import { Haptics } from '@capacitor/haptics';
+// import { Haptics } from '@capacitor/haptics';
 import labels from "./labels.json";
 import { label2speech } from "./text2speech";
 
@@ -12,139 +12,139 @@ import { label2speech } from "./text2speech";
  * @param {Array[Number]} ratios boxes ratio [xRatio, yRatio]
  */
 export const renderBoxes = (
-  counter,
-  canvasRef,
-  classThreshold,
-  boxes_data,
-  scores_data,
-  classes_data,
-  ratios
+    counter,
+    canvasRef,
+    classThreshold,
+    boxes_data,
+    scores_data,
+    classes_data,
+    ratios
 ) => {
-  const ctx = canvasRef.getContext("2d");
-  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // clean canvas
+    const ctx = canvasRef.getContext("2d");
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // clean canvas
 
-  const colors = new Colors();
+    const colors = new Colors();
 
-  // font configs
-  const font = `${Math.max(
-    Math.round(Math.max(ctx.canvas.width, ctx.canvas.height) / 40),
-    14
-  )}px Arial`;
-  ctx.font = font;
-  ctx.textBaseline = "top";
+    // font configs
+    const font = `${Math.max(
+        Math.round(Math.max(ctx.canvas.width, ctx.canvas.height) / 40),
+        14
+    )}px Arial`;
+    ctx.font = font;
+    ctx.textBaseline = "top";
 
-  const klasses = [];
-  for (let i = 0; i < scores_data.length; ++i) {
+    const klasses = [];
+    for (let i = 0; i < scores_data.length; ++i) {
     // filter based on class threshold
-    if (scores_data[i] > classThreshold) {
-      const klass = labels[classes_data[i]];
-      klasses.push({
-        index: classes_data[i],
-        label: klass,
-      });
+        if (scores_data[i] > classThreshold) {
+            const klass = labels[classes_data[i]];
+            klasses.push({
+                index: classes_data[i],
+                label: klass,
+            });
 
-      // if (klass === "person") {
-      // vibration(200);
-      // }
-      const color = colors.get(classes_data[i]);
-      const score = (scores_data[i] * 100).toFixed(1);
+            // if (klass === "person") {
+            // vibration(200);
+            // }
+            const color = colors.get(classes_data[i]);
+            const score = (scores_data[i] * 100).toFixed(1);
 
-      let [x1, y1, x2, y2] = boxes_data.slice(i * 4, (i + 1) * 4);
-      x1 *= canvasRef.width * ratios[0];
-      x2 *= canvasRef.width * ratios[0];
-      y1 *= canvasRef.height * ratios[1];
-      y2 *= canvasRef.height * ratios[1];
-      const width = x2 - x1;
-      const height = y2 - y1;
+            let [x1, y1, x2, y2] = boxes_data.slice(i * 4, (i + 1) * 4);
+            x1 *= canvasRef.width * ratios[0];
+            x2 *= canvasRef.width * ratios[0];
+            y1 *= canvasRef.height * ratios[1];
+            y2 *= canvasRef.height * ratios[1];
+            const width = x2 - x1;
+            const height = y2 - y1;
 
-      // draw box.
-      ctx.fillStyle = Colors.hexToRgba(color, 0.2);
-      ctx.fillRect(x1, y1, width, height);
-      // draw border box.
-      ctx.strokeStyle = color;
-      ctx.lineWidth = Math.max(Math.min(ctx.canvas.width, ctx.canvas.height) / 200, 2.5);
-      ctx.strokeRect(x1, y1, width, height);
+            // draw box.
+            ctx.fillStyle = Colors.hexToRgba(color, 0.2);
+            ctx.fillRect(x1, y1, width, height);
+            // draw border box.
+            ctx.strokeStyle = color;
+            ctx.lineWidth = Math.max(Math.min(ctx.canvas.width, ctx.canvas.height) / 200, 2.5);
+            ctx.strokeRect(x1, y1, width, height);
 
-      // Draw the label background.
-      ctx.fillStyle = color;
-      const textWidth = ctx.measureText(klass + " - " + score + "%").width;
-      const textHeight = parseInt(font, 10); // base 10
-      const yText = y1 - (textHeight + ctx.lineWidth);
-      ctx.fillRect(
-        x1 - 1,
-        yText < 0 ? 0 : yText, // handle overflow label box
-        textWidth + ctx.lineWidth,
-        textHeight + ctx.lineWidth
-      );
+            // Draw the label background.
+            ctx.fillStyle = color;
+            const textWidth = ctx.measureText(klass + " - " + score + "%").width;
+            const textHeight = parseInt(font, 10); // base 10
+            const yText = y1 - (textHeight + ctx.lineWidth);
+            ctx.fillRect(
+                x1 - 1,
+                yText < 0 ? 0 : yText, // handle overflow label box
+                textWidth + ctx.lineWidth,
+                textHeight + ctx.lineWidth
+            );
 
-      // Draw labels
-      ctx.fillStyle = "#ffffff";
-      ctx.fillText(klass + " - " + score + "%", x1 - 1, yText < 0 ? 0 : yText);
+            // Draw labels
+            ctx.fillStyle = "#ffffff";
+            ctx.fillText(klass + " - " + score + "%", x1 - 1, yText < 0 ? 0 : yText);
+        }
     }
-  }
 
-  speakDetectedLabel(counter, klasses);
+    speakDetectedLabel(counter, klasses);
 };
 
 const speakDetectedLabel = (counter, klasses) => {
-  if (counter % 30 === 0) {
-    const audioIndexes = klasses.map((klass) => klass.index);
-    const audioLabels = klasses.map((klass) => klass.label);
-    console.log(audioIndexes, "audioIndexes")
-    console.log(audioLabels, "audioLabels")
-    if (audioIndexes.length <= 0) {
-      return;
+    if (counter % 30 === 0) {
+        const audioIndexes = klasses.map((klass) => klass.index);
+        const audioLabels = klasses.map((klass) => klass.label);
+        console.log(audioIndexes, "audioIndexes")
+        console.log(audioLabels, "audioLabels")
+        if (audioIndexes.length <= 0) {
+            return;
+        }
+        label2speech(audioIndexes);
     }
-    label2speech(audioIndexes);
-  }
 }
 
-const vibration = (duration) => {
-  const hapticsVibrate = async () => {
-    await Haptics.vibrate(duration);
-  };
-  hapticsVibrate();
-  hapticsVibrate();
-  hapticsVibrate();
-  hapticsVibrate();
-}
+// const vibration = (duration) => {
+//     const hapticsVibrate = async () => {
+//         await Haptics.vibrate(duration);
+//     };
+//     hapticsVibrate();
+//     hapticsVibrate();
+//     hapticsVibrate();
+//     hapticsVibrate();
+// }
 
 class Colors {
-  // ultralytics color palette https://ultralytics.com/
-  constructor() {
-    this.palette = [
-      "#FF3838",
-      "#FF9D97",
-      "#FF701F",
-      "#FFB21D",
-      "#CFD231",
-      "#48F90A",
-      "#92CC17",
-      "#3DDB86",
-      "#1A9334",
-      "#00D4BB",
-      "#2C99A8",
-      "#00C2FF",
-      "#344593",
-      "#6473FF",
-      "#0018EC",
-      "#8438FF",
-      "#520085",
-      "#CB38FF",
-      "#FF95C8",
-      "#FF37C7",
-    ];
-    this.n = this.palette.length;
-  }
+    // ultralytics color palette https://ultralytics.com/
+    constructor() {
+        this.palette = [
+            "#FF3838",
+            "#FF9D97",
+            "#FF701F",
+            "#FFB21D",
+            "#CFD231",
+            "#48F90A",
+            "#92CC17",
+            "#3DDB86",
+            "#1A9334",
+            "#00D4BB",
+            "#2C99A8",
+            "#00C2FF",
+            "#344593",
+            "#6473FF",
+            "#0018EC",
+            "#8438FF",
+            "#520085",
+            "#CB38FF",
+            "#FF95C8",
+            "#FF37C7",
+        ];
+        this.n = this.palette.length;
+    }
 
-  get = (i) => this.palette[Math.floor(i) % this.n];
+    get = (i) => this.palette[Math.floor(i) % this.n];
 
-  static hexToRgba = (hex, alpha) => {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result
-      ? `rgba(${[parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)].join(
-        ", "
-      )}, ${alpha})`
-      : null;
-  };
+    static hexToRgba = (hex, alpha) => {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result
+            ? `rgba(${[parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)].join(
+                ", "
+            )}, ${alpha})`
+            : null;
+    };
 }
