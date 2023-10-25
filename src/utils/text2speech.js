@@ -1,5 +1,4 @@
-import labels from "./labels.json";
-import audio from "./audio.json"
+import labelAudio from "./audio.json"
 
 export const text2speechAPI = async (text) => {
   // const url = "http://127.0.0.1:5001/tf-js-webcam/asia-east1/api" + '/text2speech';
@@ -24,8 +23,6 @@ export const text2speechAPI = async (text) => {
 }
 
 export const label2speech = async (audioIndexes) => {
-  console.log('%ctext2speech.js line:26 audio.length', 'color: #007acc;', audio.length);
-  console.log('%ctext2speech.js line:26 label.length', 'color: #007acc;', labels.length);
   const playSound = (blob) => {
     return new Promise((resolve) => {
       const sound = new Audio(URL.createObjectURL(blob));
@@ -34,9 +31,9 @@ export const label2speech = async (audioIndexes) => {
     });
   };
   for (const index of audioIndexes) {
-    const audioContent = audio[index];
-    const audioData = Uint8Array.from(atob(audioContent), c => c.charCodeAt(0));
-    const blob = new Blob([audioData], { type: "audio/mpeg" });
+    const labelAudioContent = labelAudio[index];
+    const labelAudioData = Uint8Array.from(atob(labelAudioContent), c => c.charCodeAt(0));
+    const blob = new Blob([labelAudioData], { type: "audio/mpeg" });
     await playSound(blob);
   }
 }
