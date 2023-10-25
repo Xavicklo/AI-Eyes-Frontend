@@ -44,7 +44,7 @@ export const renderBoxes = (
       });
 
       // if (klass === "person") {
-      vibration(200);
+      // vibration(200);
       // }
       const color = colors.get(classes_data[i]);
       const score = (scores_data[i] * 100).toFixed(1);
