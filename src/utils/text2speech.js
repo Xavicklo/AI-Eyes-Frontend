@@ -1,4 +1,4 @@
-import labelAudio from "./audio.json"
+import labelAudio from "./labelAudio.json"
 
 export const text2speechAPI = async (text) => {
   // const url = "http://127.0.0.1:5001/tf-js-webcam/asia-east1/api" + '/text2speech';
