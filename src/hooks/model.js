@@ -11,9 +11,9 @@ const useModel = (modelName) => {
 
     useEffect(() => {
         tf.ready().then(async () => {
-            console.log(`loading model ${window.location.href}/${modelName}_web_model/model.json`)
+            console.log(`loading model /${modelName}_web_model/model.json`)
             const yolov5 = await tf.loadGraphModel(
-                `${window.location.href}/${modelName}_web_model/model.json`,
+                `/${modelName}_web_model/model.json`,
                 {
                     onProgress: (fractions) => {
                         setLoading({ loading: true, progress: fractions }); // set loading fractions
@@ -36,6 +36,9 @@ const useModel = (modelName) => {
             }); // set model & input shape
         });
     }, []);
+
+
+    
     return {
         model,
         loading,
