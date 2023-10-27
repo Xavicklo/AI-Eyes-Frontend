@@ -11,6 +11,7 @@ import { homeOutline, radio } from 'ionicons/icons';
 setupIonicReact();
 
 const App = () => {
+    console.log("App")
     return (
         <ion-app>
             <IonReactRouter>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { detectVideo } from "@/utils/detect";
+import { detectVideo, stopDetectVideo } from "@/utils/detect";
 import { Webcam } from "../utils/webcam";
 import PropTypes from 'prop-types';
 
@@ -24,6 +24,7 @@ const WebcamAuto = ({model}) => {
             // webcam.close(cameraRef.current);
             // cameraRef.current.style.display = "none";
             // setStreaming(null);
+            stopDetectVideo();
         };
     }, []);
 

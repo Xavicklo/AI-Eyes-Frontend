@@ -36,37 +36,13 @@ const preprocess = (source, modelWidth, modelHeight) => {
 };
 
 /**
- * Function to detect image.
- * @param {HTMLImageElement} imgSource image source
- * @param {tf.GraphModel} model loaded YOLOv5 tensorflow.js model
- * @param {Number} classThreshold class threshold
- * @param {HTMLCanvasElement} canvasRef canvas reference
- */
-export const detectImage = async (imgSource, model, classThreshold, canvasRef) => {
-    const [modelWidth, modelHeight] = model.inputShape.slice(1, 3); // get model width and height
-
-    tf.engine().startScope(); // start scoping tf engine
-    const [input, xRatio, yRatio] = preprocess(imgSource, modelWidth, modelHeight);
-
-    await model.net.executeAsync(input).then((res) => {
-        const [boxes, scores, classes] = res.slice(0, 3); // 這邊要確定資料的順序
-        const boxes_data = boxes.dataSync();
-        const scores_data = scores.dataSync();
-        const classes_data = classes.dataSync();
-        renderBoxes(canvasRef, classThreshold, boxes_data, scores_data, classes_data, [xRatio, yRatio]); // render boxes
-        tf.dispose(res); // clear memory
-    });
-
-    tf.engine().endScope(); // end of scoping
-};
-
-/**
  * Function to detect video from every source.
  * @param {HTMLVideoElement} vidSource video source
  * @param {tf.GraphModel} model loaded YOLOv5 tensorflow.js model
  * @param {Number} classThreshold class threshold
  * @param {HTMLCanvasElement} canvasRef canvas reference
  */
+let detectorTimer = null;
 export const detectVideo = (vidSource, model, classThreshold, canvasRef) => {
     const [modelWidth, modelHeight] = model.inputShape.slice(1, 3); // get model width and height
 
@@ -83,6 +59,9 @@ export const detectVideo = (vidSource, model, classThreshold, canvasRef) => {
         tf.engine().startScope(); // start scoping tf engine
         const [input, xRatio, yRatio] = preprocess(vidSource, modelWidth, modelHeight);
 
+        console.log("Executing model")
+        console.log(model)
+
         await model.net.executeAsync(input).then((res) => {
             const [boxes, scores, classes] = res.slice(0, 3);
             const boxes_data = boxes.dataSync();
@@ -95,12 +74,17 @@ export const detectVideo = (vidSource, model, classThreshold, canvasRef) => {
             tf.dispose(res); // clear memory
         });
 
-        setTimeout(()=>{
+        detectorTimer = setTimeout(()=>{
             detectFrame(counter + 1);
         }, 100); // get another frame with a delay of 100ms
+        // console.log("Detector timer: ", detectorTimer)
         tf.engine().endScope(); // end of scoping
     };
 
     detectFrame(0); // initialize to detect every frame
 };
 
+export const stopDetectVideo = () => {
+    console.log("Stopping detector: ", detectorTimer)
+    clearTimeout(detectorTimer);
+}
