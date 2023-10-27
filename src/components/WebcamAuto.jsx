@@ -16,7 +16,6 @@ const WebcamAuto = ({model}) => {
         // setStreaming("camera");
 
         return () => {
-            webcam.close(cameraRef.current);
             // cameraRef.current.style.display = "none";
             // setStreaming(null);
             stopDetectVideo();

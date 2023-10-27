@@ -72,9 +72,12 @@ export const detectVideo = (vidSource, model, classThreshold, canvasRef) => {
             tf.dispose(res); // clear memory
         });
 
-        if(stopDetect) setTimeout(()=>{
-            detectFrame(counter + 1);
-        }, 100); // get another frame with a delay of 100ms
+        if(!stopDetect) {
+            setTimeout(()=>{
+                console.log(counter, " detecting")
+                detectFrame(counter + 1);
+            }, 100); // get another frame with a delay of 100ms
+        }
         // console.log("Detector timer: ", detectorTimer)
         tf.engine().endScope(); // end of scoping
     };
