@@ -43,7 +43,7 @@ const preprocess = (source, modelWidth, modelHeight) => {
  * @param {HTMLCanvasElement} canvasRef canvas reference
  */
 let stopDetect = null;
-export const detectVideo = (vidSource, model, classThreshold, canvasRef) => {
+export const detectVideo = (vidSource, model, classThreshold, canvasRef, playAudio) => {
     const [modelWidth, modelHeight] = model.inputShape.slice(1, 3); // get model width and height
 
     /**
@@ -60,30 +60,49 @@ export const detectVideo = (vidSource, model, classThreshold, canvasRef) => {
         tf.engine().startScope(); // start scoping tf engine
         const [input, xRatio, yRatio] = preprocess(vidSource, modelWidth, modelHeight);
 
+        let klasses;
+
         await model.net.executeAsync(input).then((res) => {
             const [boxes, scores, classes] = res.slice(0, 3);
             const boxes_data = boxes.dataSync();
             const scores_data = scores.dataSync();
             const classes_data = classes.dataSync();
-            renderBoxes(counter, canvasRef, classThreshold, boxes_data, scores_data, classes_data, [
+            klasses = renderBoxes(canvasRef, classThreshold, boxes_data, scores_data, classes_data, [
                 xRatio,
                 yRatio,
             ]); // render boxes
             tf.dispose(res); // clear memory
         });
 
+        counter += 1;
         if(!stopDetect) {
             setTimeout(()=>{
-                console.log(counter, " detecting")
-                detectFrame(counter + 1);
+                detectFrame(counter);
             }, 100); // get another frame with a delay of 100ms
+        }
+        if (klasses.length > 0) {
+            speakDetectedLabel(counter, klasses, playAudio);
         }
         // console.log("Detector timer: ", detectorTimer)
         tf.engine().endScope(); // end of scoping
     };
-
+    
     detectFrame(0); // initialize to detect every frame
 };
+
+const speakDetectedLabel = async (counter, klasses, playAudio) => {
+    if (counter % 30 === 0) {
+        const audioLabels = klasses.map((klass) => klass.label);
+        if (audioLabels.length <= 0) {
+            return;
+        }
+        for (let i = 0; i < audioLabels.length; i++) {
+            playAudio(`./src/assets/mp3/${audioLabels[i]}.mp3`);
+            await new Promise(resolve => setTimeout(resolve, 500));  // wait for 1 second (or the duration of your audio)
+        }
+    }
+}
+
 
 export const stopDetectVideo = () => {
     stopDetect = true;

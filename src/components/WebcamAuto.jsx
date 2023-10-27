@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import "@/style/WebcamAuto.css";
 
-const WebcamAuto = ({model}) => {
+const WebcamAuto = ({model, playAudio}) => {
     const cameraRef = useRef(null);
     const canvasRef = useRef(null);
     const webcam = new Webcam(); // webcam handler
@@ -29,7 +29,7 @@ const WebcamAuto = ({model}) => {
                 playsInline
                 muted
                 ref={cameraRef}
-                onPlay={() => detectVideo(cameraRef.current, model, 0.1, canvasRef.current)}
+                onPlay={() => detectVideo(cameraRef.current, model, 0.1, canvasRef.current, playAudio)}
             />
             <canvas width={model.inputShape[1]} height={model.inputShape[2]} ref={canvasRef} />
         </div>
