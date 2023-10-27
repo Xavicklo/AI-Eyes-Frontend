@@ -42,13 +42,14 @@ const preprocess = (source, modelWidth, modelHeight) => {
  * @param {Number} classThreshold class threshold
  * @param {HTMLCanvasElement} canvasRef canvas reference
  */
-let detectorTimer = null;
+let stopDetect = null;
 export const detectVideo = (vidSource, model, classThreshold, canvasRef) => {
     const [modelWidth, modelHeight] = model.inputShape.slice(1, 3); // get model width and height
 
     /**
    * Function to detect every frame from video
    */
+    stopDetect = false;
     const detectFrame = async (counter) => {
         if (vidSource.videoWidth === 0 && vidSource.srcObject === null) {
             const ctx = canvasRef.getContext("2d");
@@ -71,7 +72,7 @@ export const detectVideo = (vidSource, model, classThreshold, canvasRef) => {
             tf.dispose(res); // clear memory
         });
 
-        detectorTimer = setTimeout(()=>{
+        if(stopDetect) setTimeout(()=>{
             detectFrame(counter + 1);
         }, 100); // get another frame with a delay of 100ms
         // console.log("Detector timer: ", detectorTimer)
@@ -82,6 +83,5 @@ export const detectVideo = (vidSource, model, classThreshold, canvasRef) => {
 };
 
 export const stopDetectVideo = () => {
-    console.log("Stopping detector: ", detectorTimer)
-    clearTimeout(detectorTimer);
+    stopDetect = true;
 }
