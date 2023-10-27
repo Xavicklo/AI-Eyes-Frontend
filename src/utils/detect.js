@@ -59,9 +59,6 @@ export const detectVideo = (vidSource, model, classThreshold, canvasRef) => {
         tf.engine().startScope(); // start scoping tf engine
         const [input, xRatio, yRatio] = preprocess(vidSource, modelWidth, modelHeight);
 
-        console.log("Executing model")
-        console.log(model)
-
         await model.net.executeAsync(input).then((res) => {
             const [boxes, scores, classes] = res.slice(0, 3);
             const boxes_data = boxes.dataSync();
