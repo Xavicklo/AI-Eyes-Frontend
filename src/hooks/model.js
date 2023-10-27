@@ -11,9 +11,9 @@ const useModel = (modelName) => {
 
     useEffect(() => {
         tf.ready().then(async () => {
-            console.log(`loading model ${window.location.href}/${modelName}_web_model/model.json`)
+            console.log(`loading model /${modelName}_web_model/model.json`)
             const yolov5 = await tf.loadGraphModel(
-                `${window.location.href}/${modelName}_web_model/model.json`,
+                `/${modelName}_web_model/model.json`,
                 {
                     onProgress: (fractions) => {
                         setLoading({ loading: true, progress: fractions }); // set loading fractions
@@ -22,12 +22,17 @@ const useModel = (modelName) => {
             );
             console.log("Completed loading model")
 
-            console.log("Warming up model")
-            const dummyInput = tf.ones(yolov5.inputs[0].shape);
-            const warmupResult = await yolov5.executeAsync(dummyInput);
-            tf.dispose(warmupResult); // cleanup memory
-            tf.dispose(dummyInput); // cleanup memory
-            console.log("Completed warming up model")
+            try {
+                console.log("Warming up model")
+                const dummyInput = tf.ones(yolov5.inputs[0].shape);
+                const warmupResult = await yolov5.executeAsync(dummyInput);
+                tf.dispose(warmupResult); // cleanup memory
+                tf.dispose(dummyInput); // cleanup memory
+                console.log("Completed warming up model")
+            } catch (e) {
+                console.log("Failed warming up model")
+                console.log(e)
+            }
 
             setLoading({ loading: false, progress: 1 });
             setModel({
