@@ -15,7 +15,7 @@ function useAudioLoader(labelAudioPathList) {
     const playAudio = useCallback((filePath) => {
         if (audioRefs.current[filePath]) {
             audioRefs.current[filePath].play();
-            console.log('%caudio.js line:18 sound plau', 'color: #007acc;');
+            console.log('%caudio.js line:18 audioRefs.current[filePath].play()', 'color: #007acc;');
         }
     }, []);
 
