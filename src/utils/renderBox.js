@@ -1,6 +1,5 @@
 // import { Haptics } from '@capacitor/haptics';
-import labels from "./labels.json";
-import { label2speech } from "./text2speech";
+import labels from "../assets/json/labels.json";
 
 /**
  * Render prediction boxes
@@ -12,7 +11,6 @@ import { label2speech } from "./text2speech";
  * @param {Array[Number]} ratios boxes ratio [xRatio, yRatio]
  */
 export const renderBoxes = (
-    counter,
     canvasRef,
     classThreshold,
     boxes_data,
@@ -35,7 +33,7 @@ export const renderBoxes = (
 
     const klasses = [];
     for (let i = 0; i < scores_data.length; ++i) {
-    // filter based on class threshold
+        // filter based on class threshold
         if (scores_data[i] > classThreshold) {
             const klass = labels[classes_data[i]];
             klasses.push({
@@ -43,9 +41,6 @@ export const renderBoxes = (
                 label: klass,
             });
 
-            // if (klass === "person") {
-            // vibration(200);
-            // }
             const color = colors.get(classes_data[i]);
             const score = (scores_data[i] * 100).toFixed(1);
 
@@ -83,31 +78,8 @@ export const renderBoxes = (
         }
     }
 
-    speakDetectedLabel(counter, klasses);
+    return klasses
 };
-
-const speakDetectedLabel = (counter, klasses) => {
-    if (counter % 30 === 0) {
-        const audioIndexes = klasses.map((klass) => klass.index);
-        const audioLabels = klasses.map((klass) => klass.label);
-        console.log(audioIndexes, "audioIndexes")
-        console.log(audioLabels, "audioLabels")
-        if (audioIndexes.length <= 0) {
-            return;
-        }
-        label2speech(audioIndexes);
-    }
-}
-
-// const vibration = (duration) => {
-//     const hapticsVibrate = async () => {
-//         await Haptics.vibrate(duration);
-//     };
-//     hapticsVibrate();
-//     hapticsVibrate();
-//     hapticsVibrate();
-//     hapticsVibrate();
-// }
 
 class Colors {
     // ultralytics color palette https://ultralytics.com/
