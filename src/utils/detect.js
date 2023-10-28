@@ -97,8 +97,7 @@ const speakDetectedLabel = async (counter, klasses, playAudio) => {
             return;
         }
         for (let i = 0; i < audioLabels.length; i++) {
-            // playAudio(`./src/assets/mp3/${audioLabels[i]}.mp3`);
-            playAudio(`../assets/mp3/${audioLabels[i]}.mp3`);
+            playAudio(`./src/assets/mp3/${audioLabels[i]}.mp3`);
             await new Promise(resolve => setTimeout(resolve, 500));  // wait for 1 second (or the duration of your audio)
         }
     }
