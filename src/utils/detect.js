@@ -75,8 +75,8 @@ export const detectVideo = (vidSource, model, classThreshold, canvasRef, playAud
         });
 
         counter += 1;
-        if(!stopDetect) {
-            setTimeout(()=>{
+        if (!stopDetect) {
+            setTimeout(() => {
                 detectFrame(counter);
             }, 100); // get another frame with a delay of 100ms
         }
@@ -86,7 +86,7 @@ export const detectVideo = (vidSource, model, classThreshold, canvasRef, playAud
         // console.log("Detector timer: ", detectorTimer)
         tf.engine().endScope(); // end of scoping
     };
-    
+
     detectFrame(0); // initialize to detect every frame
 };
 
@@ -96,9 +96,14 @@ const speakDetectedLabel = async (counter, klasses, playAudio) => {
         if (audioLabels.length <= 0) {
             return;
         }
-        for (let i = 0; i < audioLabels.length; i++) {
-            playAudio(`/assets/mp3/${audioLabels[i]}.mp3`);
-            await new Promise(resolve => setTimeout(resolve, 500));  // wait for 1 second (or the duration of your audio)
+        try {
+            for (let i = 0; i < audioLabels.length; i++) {
+                playAudio(`./src/assets/mp3/${audioLabels[i]}.mp3`);
+                console.log('%cdetect.js line:101 MP3', 'color: #007acc');
+                await new Promise(resolve => setTimeout(resolve, 500));  // wait for 1 second (or the duration of your audio)
+            }
+        } catch (error) {
+            console.log('%cdetect.js line:102 error', 'color: #007acc;', error);
         }
     }
 }
