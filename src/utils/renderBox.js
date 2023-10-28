@@ -1,5 +1,5 @@
 // import { Haptics } from '@capacitor/haptics';
-import labels from "./labels.json";
+import labels from "../assets/json/labels.json";
 
 /**
  * Render prediction boxes
