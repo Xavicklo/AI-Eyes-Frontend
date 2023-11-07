@@ -1,15 +1,6 @@
-# Demo Url : https://tf-js-webcam.web.app/
+# AI-Eyes
 
-
-# Object Detection using YOLOv5 and Tensorflow.js
-
-
-![love](https://img.shields.io/badge/Made%20with-🖤-white)
-![tensorflow.js](https://img.shields.io/badge/tensorflow.js-white?logo=tensorflow)
-
----
-
-[**More Feature Version**](https://hyuto.github.io/showcase/yolov5-tfjs)
+##  Demo Url : https://tf-js-webcam.web.app/
 
 ---
 
@@ -19,8 +10,8 @@ with `webgl` backend.
 **Setup**
 
 ```bash
-git clone https://github.com/Hyuto/yolov5-tfjs.git
-cd yolov5-tfjs
+git clone git@github.com:CeranaTeam/AI-Eyes.git
+cd AI-Eyes
 yarn install #Install dependencies
 ```
 
@@ -70,7 +61,3 @@ Use another YOLOv5 model.
    ...
    ```
 5. Done! 😊
-
-## Reference
-
-https://github.com/ultralytics/yolov5
