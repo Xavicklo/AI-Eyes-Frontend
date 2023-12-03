@@ -8,3 +8,25 @@ ion-col {
 ion-grid {
   /* margin-top: 50px; */
 }
+
+/* HomePage.css */
+
+.custom-toolbar {
+  border: none; /* 移除邊框 */
+}
+
+/* HomePage.css */
+
+.ai-icon {
+  width: 36px; /* 調整圖標的寬度，根據需要修改 */
+  height: 24px; /* 調整圖標的高度，根據需要修改 */
+  margin-left: 10px;
+  margin-right: 5px; /* 調整圖標與文字之間的間距 */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-top: 10px; /* 調整文字向上的距離，根據需要修改 */
+  margin-right: 10px; /* 調整整個 "AI-EYES" 元素向右的距離，根據需要修改 */
+}
