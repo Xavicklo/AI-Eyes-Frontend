@@ -1,8 +1,10 @@
 .content {
   position: relative;
-    margin: auto;
+  margin: auto;
 }
+
 video {
+  display: block; /* Ensures that the video is treated as a block-level element */
   width: 100%;
 }
 
@@ -11,4 +13,5 @@ canvas {
   top: 0;
   left: 0;
   width: 100%;
+  height: 100%; /* Match the height to ensure it covers the entire video */
 }

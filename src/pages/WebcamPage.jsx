@@ -22,7 +22,7 @@ const WebcamPage = () => {
         {!isLoaded && (
           <IonButton onClick={initAudios}>
             <IonIcon slot="start" icon={volumeHighOutline}></IonIcon>
-            Load Audios
+            開啟聲音
           </IonButton>
         )}
       </>
