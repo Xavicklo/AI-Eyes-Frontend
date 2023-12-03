@@ -12,17 +12,16 @@ const TutorialCard0 = () => {
     <IonCard>
       <IonCardHeader>
         <IonCardTitle>歡迎來到AI-EYES</IonCardTitle>
-        <IonCardSubtitle>-</IonCardSubtitle>
-        <IonCardSubtitle>此系統主要目的為透過AI影像辨識技術</IonCardSubtitle>
         <IonCardSubtitle>
+          此系統主要目的為透過AI影像辨識技術
           協助視障者透過手機掃描找尋物品與描述場景
+          以科技的方式降低視障者的不便性
         </IonCardSubtitle>
-        <IonCardSubtitle>以科技的方式降低視障者的不便性</IonCardSubtitle>
-        <IonCardSubtitle>-</IonCardSubtitle>
       </IonCardHeader>
 
       <IonCardContent>
-        若為第一次使用，螢幕下方有三步驟的操作教學，協助您操作系統，請聽完這段話後向下滑動
+        若為第一次使用 螢幕下方有三步驟的操作教學 協助您操作系統
+        請聽完這段話後向下滑動
       </IonCardContent>
     </IonCard>
   );
